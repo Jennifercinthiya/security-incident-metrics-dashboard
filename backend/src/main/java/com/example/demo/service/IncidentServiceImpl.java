@@ -34,15 +34,14 @@ public class IncidentServiceImpl implements IncidentService {
     public Incident update(Long id, Incident incident) {
         Incident existing = repository.findById(id).orElse(null);
 
-        if (existing != null) {
-            existing.setTitle(incident.getTitle());
-            existing.setDescription(incident.getDescription());
-            existing.setSeverity(incident.getSeverity());
-            existing.setStatus(incident.getStatus());
-            return repository.save(existing);
-        }
+        if (existing == null) return null;
 
-        return null;
+        existing.setTitle(incident.getTitle());
+        existing.setDescription(incident.getDescription());
+        existing.setSeverity(incident.getSeverity());
+        existing.setStatus(incident.getStatus());
+
+        return repository.save(existing);
     }
 
     @Override
