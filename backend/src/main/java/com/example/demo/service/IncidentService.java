@@ -4,11 +4,13 @@ import com.example.demo.entity.Incident;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface IncidentService {
 
     Incident createIncident(Incident incident);
 
-    List<Incident> getAllIncidents();
+    Page<Incident> getAllIncidents(int page, int size);
 
     Incident getById(Long id);
 
