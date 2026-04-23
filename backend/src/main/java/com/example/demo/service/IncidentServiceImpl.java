@@ -1,10 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Incident;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.IncidentRepository;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -22,21 +23,22 @@ public class IncidentServiceImpl implements IncidentService {
         return repository.save(incident);
     }
 
+    // ✅ FIXED (Pagination version for Day 4)
     @Override
     public Page<Incident> getAllIncidents(int page, int size) {
-    return repository.findAll(PageRequest.of(page, size));
-}
+        return repository.findAll(PageRequest.of(page, size));
+    }
 
     @Override
     public Incident getById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Incident not found: " + id));
     }
 
     @Override
     public Incident update(Long id, Incident incident) {
-        Incident existing = repository.findById(id).orElse(null);
-
-        if (existing == null) return null;
+        Incident existing = getById(id);
 
         existing.setTitle(incident.getTitle());
         existing.setDescription(incident.getDescription());
@@ -48,7 +50,7 @@ public class IncidentServiceImpl implements IncidentService {
 
     @Override
     public void delete(Long id) {
-        repository.deleteById(id);
+        repository.delete(getById(id));
     }
 
     @Override
