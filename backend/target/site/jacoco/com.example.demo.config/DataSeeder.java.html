@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataSeeder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.config</a> &gt; <span class="el_source">DataSeeder.java</span></div><h1>DataSeeder.java</h1><pre class="source lang-java linenums">package com.example.demo.config;
+
+import com.example.demo.entity.Incident;
+import com.example.demo.repository.IncidentRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+public class DataSeeder implements CommandLineRunner {
+
+    private final IncidentRepository incidentRepository;
+
+<span class="fc" id="L17">    public DataSeeder(IncidentRepository incidentRepository) {</span>
+<span class="fc" id="L18">        this.incidentRepository = incidentRepository;</span>
+<span class="fc" id="L19">    }</span>
+
+    @Override
+    public void run(String... args) throws Exception {
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (incidentRepository.count() &gt;= 30) {</span>
+<span class="fc" id="L25">            System.out.println(&quot;Data already seeded. Skipping...&quot;);</span>
+<span class="fc" id="L26">            return;</span>
+        }
+
+<span class="fc" id="L29">        List&lt;Incident&gt; incidents = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L31">        String[][] data = {</span>
+            {&quot;Server Down&quot;, &quot;Production server not responding&quot;, &quot;HIGH&quot;, &quot;OPEN&quot;},
+            {&quot;DB Connection Failed&quot;, &quot;Database connection timeout&quot;, &quot;CRITICAL&quot;, &quot;OPEN&quot;},
+            {&quot;Memory Leak&quot;, &quot;Application memory usage high&quot;, &quot;HIGH&quot;, &quot;IN_PROGRESS&quot;},
+            {&quot;API Gateway Error&quot;, &quot;API gateway returning 502&quot;, &quot;HIGH&quot;, &quot;OPEN&quot;},
+            {&quot;SSL Certificate Expired&quot;, &quot;SSL cert expired on prod&quot;, &quot;CRITICAL&quot;, &quot;RESOLVED&quot;},
+            {&quot;Slow Query&quot;, &quot;DB query taking too long&quot;, &quot;MEDIUM&quot;, &quot;OPEN&quot;},
+            {&quot;Disk Space Low&quot;, &quot;Server disk usage at 95%&quot;, &quot;HIGH&quot;, &quot;IN_PROGRESS&quot;},
+            {&quot;Login Service Down&quot;, &quot;Users unable to login&quot;, &quot;CRITICAL&quot;, &quot;OPEN&quot;},
+            {&quot;Email Service Failing&quot;, &quot;Emails not being sent&quot;, &quot;MEDIUM&quot;, &quot;OPEN&quot;},
+            {&quot;Cache Miss Rate High&quot;, &quot;Redis cache miss rate above 80%&quot;, &quot;MEDIUM&quot;, &quot;OPEN&quot;},
+            {&quot;Load Balancer Issue&quot;, &quot;Load balancer not distributing traffic&quot;, &quot;HIGH&quot;, &quot;RESOLVED&quot;},
+            {&quot;Backup Failed&quot;, &quot;Nightly backup job failed&quot;, &quot;HIGH&quot;, &quot;OPEN&quot;},
+            {&quot;Security Breach&quot;, &quot;Unauthorized access detected&quot;, &quot;CRITICAL&quot;, &quot;IN_PROGRESS&quot;},
+            {&quot;Network Latency&quot;, &quot;High network latency detected&quot;, &quot;MEDIUM&quot;, &quot;OPEN&quot;},
+            {&quot;Service Crash&quot;, &quot;Payment service crashed&quot;, &quot;CRITICAL&quot;, &quot;OPEN&quot;},
+            {&quot;Config Error&quot;, &quot;Wrong config deployed to prod&quot;, &quot;HIGH&quot;, &quot;RESOLVED&quot;},
+            {&quot;Timeout Error&quot;, &quot;Request timeout on checkout&quot;, &quot;MEDIUM&quot;, &quot;OPEN&quot;},
+            {&quot;CPU Spike&quot;, &quot;CPU usage at 100%&quot;, &quot;HIGH&quot;, &quot;IN_PROGRESS&quot;},
+            {&quot;Log Service Down&quot;, &quot;Logging service not working&quot;, &quot;LOW&quot;, &quot;OPEN&quot;},
+            {&quot;DNS Resolution Failed&quot;, &quot;DNS lookup failing&quot;, &quot;HIGH&quot;, &quot;OPEN&quot;},
+            {&quot;Auth Token Expired&quot;, &quot;JWT tokens expiring too fast&quot;, &quot;MEDIUM&quot;, &quot;RESOLVED&quot;},
+            {&quot;File Upload Failed&quot;, &quot;File upload service down&quot;, &quot;MEDIUM&quot;, &quot;OPEN&quot;},
+            {&quot;Notification Delay&quot;, &quot;Push notifications delayed&quot;, &quot;LOW&quot;, &quot;OPEN&quot;},
+            {&quot;Search Service Down&quot;, &quot;Elasticsearch not responding&quot;, &quot;HIGH&quot;, &quot;OPEN&quot;},
+            {&quot;Report Generation Failed&quot;, &quot;PDF reports not generating&quot;, &quot;MEDIUM&quot;, &quot;IN_PROGRESS&quot;},
+            {&quot;Third Party API Down&quot;, &quot;Payment gateway API down&quot;, &quot;CRITICAL&quot;, &quot;OPEN&quot;},
+            {&quot;Data Sync Failed&quot;, &quot;Data sync between services failed&quot;, &quot;HIGH&quot;, &quot;OPEN&quot;},
+            {&quot;Queue Overflow&quot;, &quot;Message queue at capacity&quot;, &quot;HIGH&quot;, &quot;IN_PROGRESS&quot;},
+            {&quot;Rate Limit Exceeded&quot;, &quot;API rate limit exceeded&quot;, &quot;MEDIUM&quot;, &quot;OPEN&quot;},
+            {&quot;Deployment Failed&quot;, &quot;Latest deployment failed on prod&quot;, &quot;CRITICAL&quot;, &quot;OPEN&quot;}
+        };
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        for (String[] d : data) {</span>
+<span class="fc" id="L65">            Incident incident = new Incident();</span>
+<span class="fc" id="L66">            incident.setTitle(d[0]);</span>
+<span class="fc" id="L67">            incident.setDescription(d[1]);</span>
+<span class="fc" id="L68">            incident.setSeverity(d[2]);</span>
+<span class="fc" id="L69">            incident.setStatus(d[3]);</span>
+<span class="fc" id="L70">            incident.setCreatedAt(LocalDateTime.now());</span>
+<span class="fc" id="L71">            incident.setUpdatedAt(LocalDateTime.now());</span>
+<span class="fc" id="L72">            incidents.add(incident);</span>
+        }
+
+<span class="fc" id="L75">        incidentRepository.saveAll(incidents);</span>
+<span class="fc" id="L76">        System.out.println(&quot;✅ 30 incidents seeded successfully!&quot;);</span>
+<span class="fc" id="L77">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
